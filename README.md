@@ -6,9 +6,33 @@
 - Продемонстрировать обработку ошибок и предельных условий для учебных задач.
 
 ## Структура проекта
-- `src/` – исходный код (алгоритмы сортировки, стек, последовательности, CLI-меню, вывод).
-- `tests/` – модульные тесты для всех ключевых компонентов.
-- `pyproject.toml`, `requirements.txt`, `uv.lock` – управление зависимостями и инструментами.
+```
+lab3/
+├── src/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── constants.py
+│   ├── sequences.py
+│   ├── sorting.py
+│   ├── stack.py
+│   ├── generator_tests.py
+│   ├── benchmarks.py
+│   ├── output.py
+│   └── ui.py
+├── tests/
+│   ├── __init__.py
+│   ├── test_sequences.py
+│   ├── test_sorting.py
+│   ├── test_stack.py
+│   ├── test_generators.py
+│   └── test_benchmarks.py
+├── .gitignore
+├── .pre-commit-config.yaml
+├── pyproject.toml
+├── README.md
+├── requirements.txt
+└── uv.lock
+```
 
 ## Используемые технологии
 - Python 3.11+

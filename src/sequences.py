@@ -26,8 +26,6 @@ class Sequences:
         result = 1
         for i in range(1, n + 1):
             result *= i
-            if result < 0:
-                raise OverflowError('Произошло переполнение при вычислении факториала')
         
         return result
 
@@ -48,9 +46,6 @@ class Sequences:
         
         result = n * self.factorial_recursive(n - 1)
         
-        if result < 0:
-            raise OverflowError('Произошло переполнение при вычислении факториала')
-        
         return result
 
     def fibo(self, n: int) -> int:
@@ -68,12 +63,10 @@ class Sequences:
             return 0
         if n == 1:
             return 1
-        
+
         a, b = 0, 1
         for _ in range(2, n + 1):
             a, b = b, a + b
-            if b < 0:
-                raise OverflowError('Произошло переполнение при вычислении числа Фибоначчи')
         
         return b
 
@@ -95,8 +88,5 @@ class Sequences:
             return 1
         
         result = self.fibo_recursive(n - 1) + self.fibo_recursive(n - 2)
-        
-        if result < 0:
-            raise OverflowError('Произошло переполнение при вычислении числа Фибоначчи')
         
         return result

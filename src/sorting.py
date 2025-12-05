@@ -132,9 +132,6 @@ def bucket_sort(arr, buckets=None):
     min_val = min(arr)
     max_val = max(arr)
     
-    if min_val < BUCKET_SORT_MIN_VALUE or max_val > BUCKET_SORT_MAX_VALUE:
-        raise ValueError('Ведерная сортировка поддерживает значения только в диапазоне [0, 1]')
-    
     if min_val == max_val:
         return arr.copy()
     
@@ -145,9 +142,11 @@ def bucket_sort(arr, buckets=None):
         buckets = n
     
     bucket_list = [[] for _ in range(buckets)]
-    
+
+    range_val = max_val - min_val
     for num in a:
-        index = int(num * buckets)
+        normalized = (num - min_val) / range_val
+        index = int(normalized * buckets)
         if index == buckets:
             index = buckets - 1
         bucket_list[index].append(num)

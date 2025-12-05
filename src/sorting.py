@@ -142,6 +142,15 @@ def bucket_sort(arr, buckets=None):
         buckets = n
     
     bucket_list = [[] for _ in range(buckets)]
+    
+    def insertion_sort(lst):
+        for i in range(1, len(lst)):
+            key = lst[i]
+            j = i - 1
+            while j >= 0 and lst[j] > key:
+                lst[j + 1] = lst[j]
+                j -= 1
+            lst[j + 1] = key
 
     range_val = max_val - min_val
     for num in a:
@@ -152,7 +161,7 @@ def bucket_sort(arr, buckets=None):
         bucket_list[index].append(num)
     
     for bucket in bucket_list:
-        bucket.sort()
+        insertion_sort(bucket)
     
     result = []
     for bucket in bucket_list:

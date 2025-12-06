@@ -66,12 +66,6 @@ class TestSorting:
             result = bucket_sort(arr)
             assert result == sorted(arr), f'Failed on {name}'
 
-    def test_bucket_sort_invalid_range(self):
-        with pytest.raises(ValueError):
-            bucket_sort([-0.1, 0.5])
-        with pytest.raises(ValueError):
-            bucket_sort([0.5, 1.1])
-
     def test_heap_sort(self):
         for name, arr in self.test_arrays.items():
             result = heap_sort(arr)

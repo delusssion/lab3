@@ -1,6 +1,6 @@
 class Node:
     '''Узел связного списка.'''
-    def __init__(self, value: int, next_node=None):
+    def __init__(self, value, next_node=None):
         self.value = value
         self.next = next_node
 
@@ -13,7 +13,7 @@ class LinkedListStack:
         self._size = 0
         self.min_stack = []
     
-    def push(self, x: int) -> None:
+    def push(self, x):
         new_node = Node(x, self.top)
         self.top = new_node
         self._size += 1
@@ -21,7 +21,7 @@ class LinkedListStack:
         if not self.min_stack or x <= self.min_stack[-1]:
             self.min_stack.append(x)
     
-    def pop(self) -> int:
+    def pop(self):
         if self.is_empty():
             raise IndexError('Pop from empty stack')
         
@@ -34,18 +34,18 @@ class LinkedListStack:
         
         return value
     
-    def is_empty(self) -> bool:
+    def is_empty(self):
         return self.top is None
     
-    def peek(self) -> int:
+    def peek(self):
         if self.is_empty():
             raise IndexError('Peek from empty stack')
         return self.top.value
     
-    def __len__(self) -> int:
+    def __len__(self):
         return self._size
     
-    def min(self) -> int:
+    def min(self):
         if self.is_empty():
             raise IndexError('Min from empty stack')
         return self.min_stack[-1]
@@ -58,13 +58,13 @@ class ListStack:
         self.stack = []
         self.min_stack = []
     
-    def push(self, x: int) -> None:
+    def push(self, x):
         self.stack.append(x)
 
         if not self.min_stack or x <= self.min_stack[-1]:
             self.min_stack.append(x)
     
-    def pop(self) -> int:
+    def pop(self):
         if self.is_empty():
             raise IndexError('Pop from empty stack')
         
@@ -75,18 +75,18 @@ class ListStack:
         
         return value
     
-    def is_empty(self) -> bool:
+    def is_empty(self):
         return len(self.stack) == 0
     
-    def peek(self) -> int:
+    def peek(self):
         if self.is_empty():
             raise IndexError('Peek from empty stack')
         return self.stack[-1]
     
-    def __len__(self) -> int:
+    def __len__(self):
         return len(self.stack)
     
-    def min(self) -> int:
+    def min(self):
         if self.is_empty():
             raise IndexError('Min from empty stack')
         return self.min_stack[-1]
@@ -100,13 +100,13 @@ class QueueStack:
         self.temp_queue = []
         self._min_value = None
     
-    def push(self, x: int) -> None:
+    def push(self, x):
         self.main_queue.append(x)
 
         if self._min_value is None or x < self._min_value:
             self._min_value = x
     
-    def pop(self) -> int:
+    def pop(self):
         if self.is_empty():
             raise IndexError('Pop from empty stack')
 
@@ -123,10 +123,10 @@ class QueueStack:
         
         return value
     
-    def is_empty(self) -> bool:
+    def is_empty(self):
         return len(self.main_queue) == 0
     
-    def peek(self) -> int:
+    def peek(self):
         if self.is_empty():
             raise IndexError('Peek from empty stack')
 
@@ -140,10 +140,14 @@ class QueueStack:
         
         return value
     
-    def __len__(self) -> int:
+    def __len__(self):
         return len(self.main_queue)
     
-    def min(self) -> int:
+    def min(self):
         if self.is_empty():
             raise IndexError('Min from empty stack')
         return self._min_value
+    
+
+stack = ListStack()
+stack.push(1.95)

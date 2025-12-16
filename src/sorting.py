@@ -1,10 +1,18 @@
 from src.constants import *
 
 
+def _ensure_integer_array(arr, algo_name):
+    '''Проверяет, что массив состоит только из целых чисел.'''
+    if any(not isinstance(x, int) for x in arr):
+        raise TypeError(f'{algo_name} работает только с целыми числами')
+
+
 def bubble_sort(arr):
     '''Сортировка пузырьком.'''
     if not arr:
         return []
+    
+    _ensure_integer_array(arr, 'Сортировка пузырьком')
     
     a = arr.copy()
     n = len(a)
@@ -22,6 +30,8 @@ def bubble_sort(arr):
 
 def quick_sort(arr):
     '''Быстрая сортировка.'''
+    _ensure_integer_array(arr, 'Быстрая сортировка')
+    
     if len(arr) <= 1:
         return arr.copy()
     
@@ -48,63 +58,56 @@ def quick_sort(arr):
     return a
 
 
-def counting_sort(arr):
-    '''Сортировка подсчетом.'''
+def counting_sort(arr, *, exp=None, base=None):
+    '''
+    Сортировка подсчетом.
+    При передаче exp и base работает как вспомогательная для поразрядной сортировки.
+    '''
     if not arr:
         return []
+    
+    _ensure_integer_array(arr, 'Сортировка подсчетом')
+
+    if exp is None:
+        if min(arr) < 0:
+            raise ValueError('Counting sort работает только с неотрицательными числами')
+        
+        max_val = max(arr)
+        
+        if max_val > COUNTING_SORT_MAX_VALUE:
+            raise ValueError('Слишком большие числа для сортировки подсчетом')
+        
+        if max_val > len(arr) * COUNTING_SORT_MAX_RANGE_RATIO:
+            raise ValueError('Слишком большой разброс значений для сортировки подсчетом')
+        
+        count = [0] * (max_val + 1)
+        
+        for num in arr:
+            count[num] += 1
+        
+        for i in range(1, len(count)):
+            count[i] += count[i - 1]
+        
+        result = [0] * len(arr)
+        
+        for num in reversed(arr):
+            count[num] -= 1
+            result[count[num]] = num
+        
+        return result
     
     if min(arr) < 0:
         raise ValueError('Counting sort работает только с неотрицательными числами')
     
-    max_val = max(arr)
+    if not isinstance(exp, int) or exp <= 0:
+        raise ValueError('exp должен быть положительным целым числом')
     
-    if max_val > COUNTING_SORT_MAX_VALUE:
-        raise ValueError('Слишком большие числа для сортировки подсчетом')
+    if not isinstance(base, int):
+        raise TypeError('Основание системы счисления должно быть целым числом')
     
-    if max_val > len(arr) * COUNTING_SORT_MAX_RANGE_RATIO:
-        raise ValueError('Слишком большой разброс значений для сортировки подсчетом')
+    if base < 2:
+        raise ValueError('Основание системы счисления должно быть не меньше 2')
     
-    count = [0] * (max_val + 1)
-    
-    for num in arr:
-        count[num] += 1
-    
-    for i in range(1, len(count)):
-        count[i] += count[i - 1]
-    
-    result = [0] * len(arr)
-    
-    for num in reversed(arr):
-        count[num] -= 1
-        result[count[num]] = num
-    
-    return result
-
-
-def radix_sort(arr, base=RADIX_DEFAULT_BASE):
-    '''Поразрядная сортировка.'''
-    if not arr:
-        return []
-    
-    if min(arr) < 0:
-        raise ValueError('Radix sort работает только с неотрицательными числами')
-    
-    if base <= 0:
-        raise ValueError('Основание системы счисления должно быть положительным')
-    
-    a = arr.copy()
-    max_val = max(a)
-    
-    exp = 1
-    while max_val // exp > 0:
-        a = counting_sort_for_radix(a, exp, base)
-        exp *= base
-    
-    return a
-
-
-def counting_sort_for_radix(arr, exp, base):
-    '''Вспомогательная функция для поразрядной сортировки.'''
     n = len(arr)
     output = [0] * n
     count = [0] * base
@@ -122,6 +125,33 @@ def counting_sort_for_radix(arr, exp, base):
         output[count[index]] = arr[i]
     
     return output
+
+
+def radix_sort(arr, base=RADIX_DEFAULT_BASE):
+    '''Поразрядная сортировка.'''
+    if not arr:
+        return []
+    
+    _ensure_integer_array(arr, 'Поразрядная сортировка')
+    
+    if min(arr) < 0:
+        raise ValueError('Radix sort работает только с неотрицательными числами')
+    
+    if not isinstance(base, int):
+        raise TypeError('Основание системы счисления должно быть целым числом')
+    
+    if base < 2:
+        raise ValueError('Основание системы счисления должно быть не меньше 2')
+    
+    a = arr.copy()
+    max_val = max(a)
+    
+    exp = 1
+    while max_val // exp > 0:
+        a = counting_sort(a, exp=exp, base=base)
+        exp *= base
+    
+    return a
 
 
 def bucket_sort(arr, buckets=None):
@@ -174,6 +204,8 @@ def heap_sort(arr):
     '''Пирамидальная сортировка.'''
     if not arr:
         return []
+    
+    _ensure_integer_array(arr, 'Пирамидальная сортировка')
     
     a = arr.copy()
     n = len(a)
